@@ -15,3 +15,11 @@ section {
   width: 50%;
   margin-top: 1em;
 }
+
+.button-cell {
+  display: flex;
+  justify-content: center;
+  button {
+    margin-right: 1em;
+  }
+}

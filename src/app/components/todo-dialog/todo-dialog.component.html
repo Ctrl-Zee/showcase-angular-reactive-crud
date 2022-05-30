@@ -1,3 +1,26 @@
-<p>
-  todo-dialog works!
-</p>
+<section>
+  <header>
+    <h2 class="dialog-title">{{ title }}</h2>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded p-button-secondary p-button-text"
+      (click)="closeAndReset()"
+    ></button>
+  </header>
+  <form [formGroup]="todoForm" (ngSubmit)="submit()">
+    <div class="input-wrapper">
+      <span class="p-float-label">
+        <input id="title" type="text" pInputText formControlName="title" />
+        <label for="title">Title</label>
+      </span>
+    </div>
+    <div class="submit-container">
+      <p-button type="submit">
+        {{ buttonName }}
+      </p-button>
+    </div>
+  </form>
+</section>

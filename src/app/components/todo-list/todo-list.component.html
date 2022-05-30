@@ -6,7 +6,7 @@
       type="button"
       icon="pi pi-plus"
       class="p-button-rounded"
-      (click)="toggleDialog()"
+      (click)="openTodoDialog('create')"
     ></button>
   </div>
   <div class="table-container">
@@ -15,17 +15,44 @@
         <tr>
           <th>Title</th>
           <th>Create Date</th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-todo>
         <tr>
           <td>{{ todo.title }}</td>
-          <td>{{ todo.createDate }}</td>
+          <td>{{ todo.createDate | date }}</td>
+          <td class="button-cell">
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-warning"
+              (click)="openTodoDialog('edit', todo.id)"
+            >
+              Edit
+            </button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              class="p-button-rounded p-button-danger"
+              (click)="onDeleteTodo(todo)"
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </section>
-<p-dialog [modal]="true" [(visible)]="displayDialog">
-  <app-todo-dialog></app-todo-dialog>
+<p-dialog [modal]="true" [(visible)]="displayDialog" [showHeader]="false">
+  <app-todo-dialog
+    [mode]="dialogMode"
+    [selectedTodo]="selectedTodo$ | async"
+    (newTodoEvent)="onNewTodo($event)"
+    (closeDialogEvent)="toggleDialog($event)"
+    (updateTodoEvent)="onEditTodo($event)"
+  ></app-todo-dialog>
 </p-dialog>
