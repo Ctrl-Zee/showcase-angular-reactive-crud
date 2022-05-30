@@ -1,0 +1,31 @@
+<section *ngIf="todoList$ | async as todoList">
+  <div class="add-todo-container">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-plus"
+      class="p-button-rounded"
+      (click)="toggleDialog()"
+    ></button>
+  </div>
+  <div class="table-container">
+    <p-table [value]="todoList">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Title</th>
+          <th>Create Date</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-todo>
+        <tr>
+          <td>{{ todo.title }}</td>
+          <td>{{ todo.createDate }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>
+<p-dialog [modal]="true" [(visible)]="displayDialog">
+  <app-todo-dialog></app-todo-dialog>
+</p-dialog>
