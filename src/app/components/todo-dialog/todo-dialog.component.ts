@@ -25,6 +25,8 @@ export class TodoDialogComponent implements OnInit, OnChanges {
   @Output() closeDialogEvent = new EventEmitter<boolean>();
 
   todoForm!: FormGroup;
+
+  // Holds the title and button text for each mode
   customTextsByMode = new Map<string, any>([
     ['edit', { title: 'Edit Todo', buttonName: 'Edit' }],
     ['create', { title: 'Add Todo', buttonName: 'Save' }],
@@ -39,11 +41,13 @@ export class TodoDialogComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // Check if a new todo item was passed in to be edited and populate the input.
     if (changes['selectedTodo']?.currentValue && this.mode === 'edit') {
       this.todoForm.controls['title'].setValue(this.selectedTodo?.title);
     }
   }
 
+  /** Controls which save function is called */
   submit(): void {
     if (this.mode === 'edit') {
       this.updateTodo();
@@ -52,6 +56,7 @@ export class TodoDialogComponent implements OnInit, OnChanges {
     }
   }
 
+  /** Create a new todo item from the form and emit to the parent */
   saveTodo(): void {
     const todo: Todo = {
       title: this.todoForm.controls['title'].value || null,
@@ -62,6 +67,7 @@ export class TodoDialogComponent implements OnInit, OnChanges {
     this.closeAndReset();
   }
 
+  /** Create a new todo item from the form and emit to the parent */
   updateTodo(): void {
     const todo: Todo = {
       id: this.selectedTodo?.id,
@@ -73,15 +79,18 @@ export class TodoDialogComponent implements OnInit, OnChanges {
     this.closeAndReset();
   }
 
+  /** Clean up form and emit event to close dialog */
   closeAndReset(): void {
     this.todoForm.reset();
     this.closeDialogEvent.emit(false);
   }
 
+  /** Helper function to get the dialog title to display */
   get title(): string {
     return this.customTextsByMode.get(this.mode).title;
   }
 
+  /** Helper function to get the button text to display */
   get buttonName(): string {
     return this.customTextsByMode.get(this.mode).buttonName;
   }
